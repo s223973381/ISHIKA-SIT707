@@ -4,9 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.Dimension;
 
-/**
- * @author Ahsan Habib
- */
+
 public class SeleniumOperations {
 
 	public static void sleep(int sec) {

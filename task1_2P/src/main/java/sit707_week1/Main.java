@@ -1,10 +1,6 @@
 package sit707_week1;
 
-/**
- * Hello world!
- * 
- * @author Ahsan Habib
- */
+
 public class Main {
 
 	/*
