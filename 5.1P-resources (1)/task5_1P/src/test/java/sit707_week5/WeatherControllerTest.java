@@ -1,5 +1,9 @@
 package sit707_week5;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,12 +19,10 @@ public class WeatherControllerTest {
     public static void setUp() {
         System.out.println("+++ setUp +++");
 
-        // Arrange: initialise controller once
         wController = WeatherController.getInstance();
         nHours = wController.getTotalHours();
         hourlyTemps = new double[nHours];
 
-        // Arrange: retrieve all hourly temperatures once only
         for (int i = 0; i < nHours; i++) {
             hourlyTemps[i] = wController.getTemperatureForHour(i + 1);
         }
@@ -29,8 +31,6 @@ public class WeatherControllerTest {
     @AfterClass
     public static void tearDown() {
         System.out.println("+++ tearDown +++");
-
-        // After: close controller once only
         wController.close();
     }
 
@@ -50,18 +50,16 @@ public class WeatherControllerTest {
     public void testTemperatureMin() {
         System.out.println("+++ testTemperatureMin +++");
 
-        // Arrange
         double minTemperature = hourlyTemps[0];
+
         for (double temp : hourlyTemps) {
             if (temp < minTemperature) {
                 minTemperature = temp;
             }
         }
 
-        // Act
         double cachedMin = wController.getTemperatureMinFromCache();
 
-        // Assert
         Assert.assertTrue(cachedMin == minTemperature);
     }
 
@@ -69,18 +67,16 @@ public class WeatherControllerTest {
     public void testTemperatureMax() {
         System.out.println("+++ testTemperatureMax +++");
 
-        // Arrange
         double maxTemperature = hourlyTemps[0];
+
         for (double temp : hourlyTemps) {
             if (temp > maxTemperature) {
                 maxTemperature = temp;
             }
         }
 
-        // Act
         double cachedMax = wController.getTemperatureMaxFromCache();
 
-        // Assert
         Assert.assertTrue(cachedMax == maxTemperature);
     }
 
@@ -88,35 +84,45 @@ public class WeatherControllerTest {
     public void testTemperatureAverage() {
         System.out.println("+++ testTemperatureAverage +++");
 
-        // Arrange
         double sumTemp = 0;
+
         for (double temp : hourlyTemps) {
             sumTemp += temp;
         }
-        double averageTemp = sumTemp / nHours;
 
-        // Act
+        double averageTemp = sumTemp / nHours;
         double cachedAverage = wController.getTemperatureAverageFromCache();
 
-        // Assert
         Assert.assertTrue(cachedAverage == averageTemp);
     }
 
     @Test
-    public void testTemperaturePersist() {
-        /*
-         * Remove below comments ONLY for 5.3C task.
-         */
-//      System.out.println("+++ testTemperaturePersist +++");
-//
-//      WeatherController wController = WeatherController.getInstance();
-//
-//      String persistTime = wController.persistTemperature(10, 19.5);
-//      String now = new SimpleDateFormat("H:m:s").format(new Date());
-//      System.out.println("Persist time: " + persistTime + ", now: " + now);
-//
-//      Assert.assertTrue(persistTime.equals(now));
-//
-//      wController.close();
+    public void testTemperaturePersist() throws Exception {
+        System.out.println("+++ testTemperaturePersist +++");
+
+        long beforeTime = System.currentTimeMillis();
+
+        String persistTime = wController.persistTemperature(10, 19.5);
+
+        long afterTime = System.currentTimeMillis();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("H:m:s");
+        Date persistDate = sdf.parse(persistTime);
+
+        Calendar currentCal = Calendar.getInstance();
+        Calendar persistCal = Calendar.getInstance();
+        persistCal.setTime(persistDate);
+
+        currentCal.set(Calendar.HOUR_OF_DAY, persistCal.get(Calendar.HOUR_OF_DAY));
+        currentCal.set(Calendar.MINUTE, persistCal.get(Calendar.MINUTE));
+        currentCal.set(Calendar.SECOND, persistCal.get(Calendar.SECOND));
+        currentCal.set(Calendar.MILLISECOND, 0);
+
+        long persistMillis = currentCal.getTimeInMillis();
+
+        Assert.assertTrue(
+            "Persist time should be between before and after execution time",
+            persistMillis >= beforeTime - 1000 && persistMillis <= afterTime + 1000
+        );
     }
 }
