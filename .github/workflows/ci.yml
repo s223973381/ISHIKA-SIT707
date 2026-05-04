@@ -3,8 +3,6 @@ name: Java CI
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
   build:
@@ -12,7 +10,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: task9_1P-status-checker   # ⭐ IMPORTANT
+        working-directory: task9_1P-status-checker
 
     steps:
       - name: Checkout repository
