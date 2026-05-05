@@ -17,7 +17,7 @@ public class TaskStatusCheckerTest {
     @Test
     public void testWorkingOnItStatus() {
         Assert.assertEquals(
-            "Wrong Message.",
+            "Task is currently in progress. Keep working on it.",
             TaskStatusChecker.checkStatus("working on it")
         );
     }
