@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TaskStatusCalculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">task_6_2D_right_bicep_code_coverage</a> &gt; <a href="index.source.html" class="el_package">ontrack</a> &gt; <span class="el_source">TaskStatusCalculator.java</span></div><h1>TaskStatusCalculator.java</h1><pre class="source lang-java linenums">package ontrack;
+
+import java.time.LocalDate;
+
+<span class="fc" id="L5">public class TaskStatusCalculator {</span>
+
+    public String calculateTaskStatus(LocalDate submissionDate, LocalDate dueDate, boolean feedbackGiven) {
+
+<span class="fc bfc" id="L9" title="All 2 branches covered.">        if (dueDate == null) {</span>
+<span class="fc" id="L10">            return &quot;Invalid due date&quot;;</span>
+        }
+
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        if (submissionDate == null) {</span>
+<span class="fc" id="L14">            return &quot;Not submitted&quot;;</span>
+        }
+
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        if (feedbackGiven) {</span>
+<span class="fc" id="L18">            return &quot;Marked&quot;;</span>
+        }
+
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (submissionDate.isAfter(dueDate)) {</span>
+<span class="fc" id="L22">            return &quot;Submitted late - waiting for feedback&quot;;</span>
+        }
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (submissionDate.isEqual(dueDate)) {</span>
+<span class="fc" id="L26">            return &quot;Submitted on due date - waiting for feedback&quot;;</span>
+        }
+
+<span class="fc" id="L29">        return &quot;Submitted on time - waiting for feedback&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
