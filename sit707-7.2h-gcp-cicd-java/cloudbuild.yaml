@@ -2,13 +2,16 @@ steps:
   - name: 'maven:3.9.6-eclipse-temurin-17'
     entrypoint: 'mvn'
     args: ['test']
+    dir: 'sit707-7.2h-gcp-cicd-java'
 
   - name: 'maven:3.9.6-eclipse-temurin-17'
     entrypoint: 'mvn'
     args: ['package', '-DskipTests']
+    dir: 'sit707-7.2h-gcp-cicd-java'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/sit707-7-2h-java-app', '.']
+    dir: 'sit707-7.2h-gcp-cicd-java'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/sit707-7-2h-java-app']
@@ -16,15 +19,19 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
     args:
-      [
-        'run', 'deploy', 'sit707-7-2h-java-app',
-        '--image', 'gcr.io/$PROJECT_ID/sit707-7-2h-java-app',
-        '--region', 'australia-southeast1',
-        '--platform', 'managed',
-        '--allow-unauthenticated'
-      ]
+      - 'run'
+      - 'deploy'
+      - 'sit707-7-2h-java-app'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/sit707-7-2h-java-app'
+      - '--region'
+      - 'australia-southeast1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
 
 images:
   - 'gcr.io/$PROJECT_ID/sit707-7-2h-java-app'
-  options:
-    logging: CLOUD_LOGGING_ONLY
+
+options:
+  logging: CLOUD_LOGGING_ONLY
