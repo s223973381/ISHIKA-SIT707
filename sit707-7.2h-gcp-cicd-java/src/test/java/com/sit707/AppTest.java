@@ -11,7 +11,7 @@ public class AppTest {
     }
 
     @Test
-    public void testTaskStatusFailing() {
-        assertEquals("D", App.getTaskStatus(85));
+    public void testTaskStatusHD() {
+        assertEquals("HD", App.getTaskStatus(85));
     }
 }
